@@ -1,19 +1,26 @@
+require 'SecureRandom'
 require_relative 'locked_error'
+
 module ProcessLock
   class NixLocker
-    EXISTS = :a5e82ab0b5ba11e3a5e20800200c9a66
 
-    def lock(name)
-      path = File.join(tmpdir, name + ".pid")
-      result = run(path)
+    EXISTS = Object.new
 
+    def ensure_only_process(name)
+      path = File.join(tmpdir, "#{name}.pid")
+      result = run(path) { yield }
       raise LockedError if result == EXISTS
       result
     end
 
     private
 
+    def tmpdir
+      '/tmp'
+    end
+
     def run(path)
+      thrown = false
       catch(EXISTS) do
         begin
           begin
@@ -21,13 +28,14 @@ module ProcessLock
               file << Process.pid
             end
           rescue
+            thrown = true
             throw(EXISTS, EXISTS)
           end
 
           yield
 
         ensure
-          File.delete(path)
+          File.delete(path) unless thrown
         end
       end
     end

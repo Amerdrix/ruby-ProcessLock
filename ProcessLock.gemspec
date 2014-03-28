@@ -9,8 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Courtney de Lautour"]
   spec.email         = ["clautour@thefrontiergroup.com.au"]
   spec.summary       = %q{Locks a method to a single process}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/Amerdrix/ruby-ProcessLock"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
@@ -19,6 +18,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler", "~> 1.5"
-  spec.add_development_dependency "rake"
-  spec.add_development_dependency "rspec"
+  spec.add_development_dependency "rake", "~> 10"
+  spec.add_development_dependency "rspec", "~> 2.3"
 end
